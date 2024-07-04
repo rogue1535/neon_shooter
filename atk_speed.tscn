@@ -1,0 +1,72 @@
+[gd_scene load_steps=3 format=3 uid="uid://4recpyijcko8"]
+
+[sub_resource type="GDScript" id="GDScript_01131"]
+script/source = "extends Area2D
+
+# Define variables
+@export var float_amplitude = 5.0  # The height of the float
+@export var float_speed = 0.7       # The speed of the float
+
+# Store the original position
+var original_y = 0.0
+var d = 0.0
+var pos 
+var speed = 20
+func _ready():
+	pos = self.global_position
+	original_y = position.y
+	
+
+func _process(delta):
+	# Calculate the new Y position using sine function
+	if $\"../../player\":
+		pos -= (self.global_position-$\"../../player\".global_position).normalized() * speed*delta
+		position.x = pos.x
+		original_y = pos.y
+	d += delta
+	var new_y = original_y + float_amplitude * sin(2 * PI * float_speed * d)
+	position.y = new_y
+
+
+func _on_body_entered(body):
+	if body == $\"../../player\":
+		body.upgradeAtkspeed()
+		queue_free()
+		
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oigyj"]
+size = Vector2(18, 18)
+
+[node name="atk speed" type="Area2D"]
+position = Vector2(0, -2.77443)
+script = SubResource("GDScript_01131")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_oigyj")
+metadata/_edit_lock_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(1.78814e-07, 4)
+rotation = 0.174533
+color = Color(1, 0.819608, 0, 1)
+polygon = PackedVector2Array(-6, -5, -5, -7, -4, -5, -4, 1, -6, 1)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Polygon2D"]
+position = Vector2(3, 0)
+color = Color(1, 0.819608, 0, 1)
+polygon = PackedVector2Array(-6, -5, -5, -7, -4, -5, -4, 1, -6, 1)
+
+[node name="Polygon2D" type="Polygon2D" parent="Polygon2D/Polygon2D2"]
+position = Vector2(3, 1)
+rotation = 0.174533
+color = Color(1, 0.819608, 0, 1)
+polygon = PackedVector2Array(-6, -5, -5, -7, -4, -5, -4, 1, -6, 1)
+
+[node name="Polygon2D" type="Polygon2D" parent="Polygon2D/Polygon2D2/Polygon2D"]
+position = Vector2(-4.46221, -10.1103)
+rotation = -0.174533
+color = Color(1, 0.819608, 0, 1)
+polygon = PackedVector2Array(0, 0, -0.347296, -1.96962, 0.637512, -2.14326, 0.984808, -0.173648, 2.95442, -0.520945, 3.12807, 0.463863, 1.15846, 0.811159, 1.50575, 2.78078, 0.520945, 2.95442, 0.173648, 0.984807, -1.79597, 1.3321, -1.96962, 0.347296)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

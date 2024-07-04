@@ -1,0 +1,335 @@
+[gd_scene load_steps=10 format=3 uid="uid://d2xgs1ywp2w2q"]
+
+[ext_resource type="Script" path="res://triangle_enemy.gd" id="1_7pkqt"]
+[ext_resource type="AudioStream" uid="uid://ccxfnjn8nm2yb" path="res://airplane-atmos-22955.mp3" id="2_hn3k3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gjet0"]
+height = 38.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qfyqi"]
+size = Vector2(36.1786, 27)
+
+[sub_resource type="Animation" id="Animation_sef00"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:explosiveness")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:lifetime")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../hit:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../explosion:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Polygon2D2:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_lvv0f"]
+resource_name = "death"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:explosiveness")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:lifetime")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../hit:monitoring")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../explosion:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../Polygon2D2:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_mvyf4"]
+resource_name = "hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5jcpn"]
+_data = {
+"RESET": SubResource("Animation_sef00"),
+"death": SubResource("Animation_lvv0f"),
+"hit": SubResource("Animation_mvyf4")
+}
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_vigiw"]
+polygon = PackedVector2Array(-4.28572, -15.7143, 1.42857, -12.8571, 5.71429, -4.28572, 12.8571, -2.85714, 12.8571, 2.85714, 5.71429, 4.28571, 1.42857, 12.8571, -4.28572, 15.7143, -2.85714, 5.71428, -21.4286, 2.85714, -21.4286, -1.42857, -2.85714, -5.71429)
+
+[node name="triangle enemy" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(0.7, 0.7)
+motion_mode = 1
+wall_min_slide_angle = 0.0
+floor_stop_on_slope = false
+platform_floor_layers = 4294967040
+script = ExtResource("1_7pkqt")
+
+[node name="passiveanim" type="CPUParticles2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.517647)
+amount = 10
+lifetime = 0.3
+draw_order = 1
+emission_shape = 2
+emission_sphere_radius = 20.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 10.0
+angular_velocity_min = 30.0
+angular_velocity_max = 30.0
+tangential_accel_min = -5.0
+tangential_accel_max = 5.0
+damping_min = 2.0
+damping_max = 2.0
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+color = Color(1, 0.517647, 0.14902, 1)
+
+[node name="dmg" type="CPUParticles2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.262745)
+emitting = false
+amount = 40
+emission_shape = 1
+emission_sphere_radius = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+angular_velocity_min = -30.0
+angular_velocity_max = 30.0
+tangential_accel_min = -4.0
+tangential_accel_max = 4.0
+damping_min = 28.0
+damping_max = 30.0
+scale_amount_min = 7.0
+scale_amount_max = 7.0
+color = Color(1, 0.517647, 0.14902, 1)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-4, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_gjet0")
+
+[node name="hit" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit"]
+position = Vector2(-2.375, 0)
+shape = SubResource("RectangleShape2D_qfyqi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../dmg")
+libraries = {
+"": SubResource("AnimationLibrary_5jcpn")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_hn3k3")
+autoplay = true
+max_distance = 400.0
+attenuation = 9.72406
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+position = Vector2(4.28571, 22.8571)
+rotation = 1.5708
+scale = Vector2(4, 4)
+color = Color(1, 0.517647, 0.14902, 1)
+polygon = PackedVector2Array(-6.42857, -2.14286, -5, -2.14286, -4.64286, -0.357143, -2.5, 0.714286, -1.78571, 2.14286, -4.28571, 1.78571, -5, 6.42857, -6.07143, 6.42857, -7.14286, 1.78571, -9.64286, 2.14286, -8.92857, 0.714286, -6.78571, -0.357143)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Polygon2D2"]
+visible = false
+position = Vector2(-5.71428, 1.07143)
+rotation = -1.5708
+scale = Vector2(0.25, 0.25)
+occluder = SubResource("OccluderPolygon2D_vigiw")
+
+[node name="explosion" type="CPUParticles2D" parent="."]
+rotation = 1.5708
+scale = Vector2(4, 4)
+emitting = false
+amount = 16
+lifetime = 1.5
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+tangential_accel_min = -10.0
+tangential_accel_max = 10.0
+damping_min = 15.0
+damping_max = 15.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_max = 3.0
+color = Color(1, 0.517647, 0.14902, 1)
+
+[connection signal="body_entered" from="hit" to="." method="_on_hit_body_entered"]

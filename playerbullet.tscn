@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmb0qtrqc3uin"]
+
+[ext_resource type="Script" path="res://playerbullet.gd" id="1_2tu0h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfunv"]
+size = Vector2(15, 4)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_085ig"]
+polygon = PackedVector2Array(-8, -2, 5, -2, 8, 0, 5, 2, -8, 2)
+
+[node name="playerbullet" type="Area2D"]
+monitorable = false
+script = ExtResource("1_2tu0h")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.0627451, 0.823529, 0.458824, 1)
+polygon = PackedVector2Array(-8, -2, 5, -2, 8, 0, 5, 2, -8, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_wfunv")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_085ig")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

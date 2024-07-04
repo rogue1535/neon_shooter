@@ -1,0 +1,121 @@
+[gd_scene load_steps=7 format=3 uid="uid://cmb0qtrqc3uin"]
+
+[ext_resource type="Script" path="res://playerbullet.gd" id="1_2tu0h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfunv"]
+size = Vector2(16, 4)
+
+[sub_resource type="Animation" id="Animation_auq3h"]
+resource_name = "die"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Polygon2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CPUParticles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_eo7j8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CPUParticles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v14ve"]
+_data = {
+"RESET": SubResource("Animation_eo7j8"),
+"die": SubResource("Animation_auq3h")
+}
+
+[sub_resource type="Gradient" id="Gradient_p87b4"]
+offsets = PackedFloat32Array(0, 0.706667)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_2tu0h")
+speed = null
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
+color = Color(0.0627451, 0.823529, 0.458824, 1)
+polygon = PackedVector2Array(-8, -2, 5, -2, 8, 0, 5, 2, -8, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_wfunv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_v14ve")
+}
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(-1, 0)
+spread = 75.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 6.0
+initial_velocity_max = 15.0
+angular_velocity_min = 10.0
+angular_velocity_max = 270.0
+damping_min = 2.0
+damping_max = 8.0
+scale_amount_min = 0.5
+scale_amount_max = 1.5
+color = Color(0.0627451, 0.823529, 0.458824, 1)
+color_ramp = SubResource("Gradient_p87b4")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

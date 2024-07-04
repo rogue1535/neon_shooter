@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=3 uid="uid://bg7ri2qehng4r"]
+
+[sub_resource type="Gradient" id="Gradient_3pjmc"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.201299, 0.25, 0.28, 0.3)
+colors = PackedColorArray(0.0862745, 0.0901961, 0.101961, 1, 1, 0.517647, 0.14902, 1, 1, 0.517647, 0.14902, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_o6wwy"]
+gradient = SubResource("Gradient_3pjmc")
+width = 100
+height = 100
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="GDScript" id="GDScript_veedp"]
+script/source = "extends Sprite2D
+
+@export var time = 0.35
+var start = 0
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	$\".\".scale+= Vector2(delta*4,delta*4)
+	
+	
+	start += delta 
+	
+	if start >= time:
+		$AnimationPlayer.play('end')
+		
+
+
+func _on_area_2d_body_entered(body):
+	if body.has_method('handle_ehit'):
+		body.handle_ehit((self.global_position-body.global_position).normalized(),200,25)
+	elif body.has_method('handle_hit'):
+		body.handle_hit((self.global_position-body.global_position).normalized(),1000,5)
+
+
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_125wh"]
+
+[sub_resource type="Animation" id="Animation_p4jf4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_2083u"]
+resource_name = "end"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j4mwy"]
+_data = {
+"RESET": SubResource("Animation_p4jf4"),
+"end": SubResource("Animation_2083u")
+}
+
+[node name="circ_explosion" type="Sprite2D"]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("GradientTexture2D_o6wwy")
+script = SubResource("GDScript_veedp")
+metadata/_edit_lock_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_125wh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_j4mwy")
+}
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

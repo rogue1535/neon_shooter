@@ -1,0 +1,307 @@
+[gd_scene load_steps=16 format=3 uid="uid://di0rj2pbtxpcy"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_7gl5y"]
+[ext_resource type="Script" path="res://Camera2D.gd" id="2_femqn"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sjwji"]
+polygon = PackedVector2Array(10, -3, 7, -8, 3, -10, -3, -10, -8, -7, -10, -4, -10, -1, -10, 2, -9, 5, -7, 8, -3, 10, 1, 10, 5, 9, 8, 7, 10, 3, 19, 0)
+
+[sub_resource type="Gradient" id="Gradient_sps83"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.155844, 0.227273, 0.299, 0.3)
+colors = PackedColorArray(0.0862745, 0.0901961, 0.101961, 1, 0.0627451, 0.823529, 0.458824, 1, 0.0627451, 0.823529, 0.458824, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n2svm"]
+gradient = SubResource("Gradient_sps83")
+width = 50
+height = 50
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xkttm"]
+
+[sub_resource type="Animation" id="Animation_tyewm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("dmg:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Polygon2D/Polygon2D/Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hmv0b"]
+resource_name = "hurt"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("dmg:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Polygon2D/Polygon2D/Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.105882, 0.105882, 0.105882, 1), Color(1, 1, 1, 1), Color(0.105882, 0.105882, 0.105882, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3f35g"]
+_data = {
+"RESET": SubResource("Animation_tyewm"),
+"hurt": SubResource("Animation_hmv0b")
+}
+
+[sub_resource type="Animation" id="Animation_773pg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("lvlup:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_dtbie"]
+resource_name = "atkspd"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("lvlup:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4cc53"]
+_data = {
+"RESET": SubResource("Animation_773pg"),
+"atkspd": SubResource("Animation_dtbie")
+}
+
+[sub_resource type="Animation" id="Animation_4crhj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("death2:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Polygon2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_srt8w"]
+resource_name = "death"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("death2:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Polygon2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mvl0x"]
+_data = {
+"RESET": SubResource("Animation_4crhj"),
+"death": SubResource("Animation_srt8w")
+}
+
+[node name="player" type="CharacterBody2D" groups=["player"]]
+scale = Vector2(0.7, 0.7)
+motion_mode = 1
+floor_stop_on_slope = false
+floor_constant_speed = true
+platform_on_leave = 2
+script = ExtResource("1_7gl5y")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+visible = false
+position = Vector2(19, 0)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_sjwji")
+
+[node name="dmg" type="CPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.596078)
+emitting = false
+amount = 30
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.5
+emission_shape = 1
+emission_sphere_radius = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+angular_velocity_min = -30.0
+angular_velocity_max = 30.0
+tangential_accel_min = -4.0
+tangential_accel_max = 4.0
+damping_min = 28.0
+damping_max = 30.0
+scale_amount_min = 5.0
+scale_amount_max = 5.0
+color = Color(0.0627451, 0.823529, 0.458824, 1)
+
+[node name="lvlup" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 30
+one_shot = true
+explosiveness = 0.5
+emission_shape = 1
+emission_sphere_radius = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+angular_velocity_min = -30.0
+angular_velocity_max = 30.0
+tangential_accel_min = -4.0
+tangential_accel_max = 4.0
+damping_min = 28.0
+damping_max = 30.0
+scale_amount_min = 5.0
+scale_amount_max = 5.0
+color = Color(1, 0.819608, 0, 1)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+modulate = Color(1.5, 1.5, 1.5, 1)
+position = Vector2(6, 0)
+color = Color(0.0627451, 0.823529, 0.458824, 1)
+polygon = PackedVector2Array(-3, -6, -5, -10, -5, 10, -3, 6, 17, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="Polygon2D"]
+color = Color(0.0862745, 0.0901961, 0.101961, 1)
+polygon = PackedVector2Array(-5, -4, 11, 0, -5, 5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Polygon2D/Polygon2D"]
+position = Vector2(-6, 0)
+texture = SubResource("GradientTexture2D_n2svm")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 2.91323e-13)
+rotation = 1.5708
+shape = SubResource("CircleShape2D_xkttm")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.2, 1.2)
+position_smoothing_enabled = true
+script = ExtResource("2_femqn")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+one_shot = true
+
+[node name="hurtanim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3f35g")
+}
+
+[node name="effects" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_4cc53")
+}
+
+[node name="death" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mvl0x")
+}
+
+[node name="death2" type="CPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.596078)
+emitting = false
+amount = 30
+lifetime = 1.5
+explosiveness = 0.71
+emission_shape = 1
+emission_sphere_radius = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+angular_velocity_min = -30.0
+angular_velocity_max = 30.0
+tangential_accel_min = -4.0
+tangential_accel_max = 4.0
+damping_min = 28.0
+damping_max = 30.0
+scale_amount_min = 5.0
+scale_amount_max = 5.0
+color = Color(0.0627451, 0.823529, 0.458824, 1)
+
+[connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]
